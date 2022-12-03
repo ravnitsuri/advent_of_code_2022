@@ -1,8 +1,55 @@
 const fs = require("fs/promises");
+// const print = (x) => console.log(JSON.stringify(x, null, 4));
 
 // A => Rock x
 // B => Paper y
 // C => Scissor z
+
+// X => lose
+// Y => draw
+// Z => win
+
+const calculateMove = (opponentMove, roundResult) => {
+  if (opponentMove === "A") {
+    switch (roundResult) {
+      case "X":
+        return "Z";
+      case "Y":
+        return "X";
+      case "Z":
+        return "Y";
+
+      default:
+        break;
+    }
+  } else if (opponentMove === "B") {
+    switch (roundResult) {
+      case "X":
+        return "X";
+      case "Y":
+        return "Y";
+      case "Z":
+        return "Z";
+
+      default:
+        break;
+    }
+  } else if (opponentMove === "C") {
+    switch (roundResult) {
+      case "X":
+        return "Y";
+      case "Y":
+        return "Z";
+      case "Z":
+        return "X";
+
+      default:
+        break;
+    }
+  } else {
+    throw new Error("watwatwat");
+  }
+};
 
 const yourMoveScore = (move) => {
   switch (move) {
@@ -87,8 +134,9 @@ let main = async () => {
 
     let score = 0;
 
-    for (const [opponentMove, yourMove] of formattedInput) {
+    for (const [opponentMove, roundResult] of formattedInput) {
       // console.log({ opponentMove, yourMove });
+      let yourMove = calculateMove(opponentMove, roundResult);
       score += yourMoveScore(yourMove);
       score += winScore(opponentMove, yourMove);
     }
